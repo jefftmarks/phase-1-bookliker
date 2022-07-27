@@ -14,7 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
         usersArray = userData;
     })
 
+
 // Render functions
+
 
     // Function to render book list
     function renderBookList (book) {
@@ -33,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const author = document.createElement('h2');
         const description = document.createElement('p');
         const users = document.createElement('ul');
-        const likeButton = document.createElement('button');
+        const likeBtn = document.createElement('button');
 
         panelDiv.id = book.id;
         panelDiv.className = 'panel-div';
@@ -43,30 +45,51 @@ document.addEventListener("DOMContentLoaded", () => {
         author.textContent = book.author;
         description.textContent = book.description;
         users.id = `users-${book.id}`;
-        likeButton.textContent = 'LIKE';
+        likeBtn.textContent = 'LIKE';
+        likeBtn.id = `like-${book.id}`;
 
         book.users.forEach((element) => {
             const username = document.createElement('li');
+            const deleteBtn = document.createElement('button')
+            
             username.textContent = element.username;
-            username.className = 'user'
+            username.className = 'user';
+            deleteBtn.textContent = 'x';
+            deleteBtn.id = `delete-${book.id}-${element.username}`
+            deleteBtn.style.marginLeft = '10px';
+
+            username.append(deleteBtn);
             users.append(username);
+
+            // Event listener to handle delete
+            deleteBtn.addEventListener('click', () => handleDelete(book, element.username));
         })
 
-        panelDiv.append(thumbnail, title, subtitle, author, description, users, likeButton);
+        // Conditional to disable like button if all users have liked
+        if (book.users.length >= 10) {
+            likeBtn.disabled = true;
+        }
+
+        panelDiv.append(thumbnail, title, subtitle, author, description, users, likeBtn);
         showPanel.append(panelDiv);
 
         panelDiv.style.display = 'none';
 
-        // Event listener to display book panel
-        li.addEventListener('click', () => showBookInfo(book))
-        // Event listener to handle user likes
-        likeButton.addEventListener('click', () => {
-            handleLikes(book);
-        })
+        // Event listeners
+
+            // Event listener to display book panel
+            li.addEventListener('click', () => showBookInfo(book))
+
+            // Event listener to handle user likes
+            likeBtn.addEventListener('click', () => handleLikes(book))
     }
 
+
     // Function to display book panel
+    let activePanel = null;
+
     function showBookInfo(book) {
+        activePanel = book.id;
         const nodeList = document.querySelectorAll('.panel-div');
         const panelArray = Array.from(nodeList);
         panelArray.forEach((element) => {
@@ -77,26 +100,43 @@ document.addEventListener("DOMContentLoaded", () => {
         panel.style.display = 'block';
     }
 
-    // Function to users on book panel
+
+    // Function to update users on book panel
     function updateBookInfo(book) {
         const users = document.getElementById(`users-${book.id}`);
         const newListItem = document.createElement('li');
+        const deleteBtn = document.createElement('button');
+        const likeBtn = document.getElementById(`like-${book.id}`);
 
-        // Find most recently add (last) users object in users array
+        deleteBtn.style.marginLeft = '10px';
+
+        // Conditional to disable like button if all users have liked
+        if (book.users.length >= 10) {
+            likeBtn.disabled = true;
+        }
+
+        // Find most recently added (last) user object in users array
         const x = book.users.length;
         const newUser = book.users[x - 1];
         const newUsername = newUser.username;
 
         newListItem.textContent = newUsername;
+        deleteBtn.textContent = 'x';
+        deleteBtn.id = `delete-${book.id}-${newUsername}`
+
+        // Event listener to handle delete
+        deleteBtn.addEventListener('click', () => handleDelete(book, newUsername));
 
         // Need conditional to not add a new list item if all usernames are used
         if (newUsername) {
+            newListItem.append(deleteBtn);
             users.appendChild(newListItem);
         }
     }
 
 
 // Handle Likes
+
 
     // function to handle likes
     function handleLikes(book) {
@@ -107,9 +147,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // This variable will store the name of a username available to like the book
         let nextUser = {};
 
-        // For each user in user databse, perform a function to return a false value for every user not currently in the current_likes array
-        // Create a flag to track boolean value
-        // Create conditional: if not flag (aka user has not liked book), update the value of next user, which after the end of the for each teration, will equal a value of a username available to like the book
+        // For each user in user databse, perform a function to return a false value for every user not currently in the current_likes array (aka users who haven't liked book)
+        // Create a flag to equal this boolean value for each user
+        // Create conditional: if flag is false (aka user has not liked book), update the value of our next user variable, which after the end of the forEach() iteration, will equal the value of a username available to like the book
         usersArray.forEach(userObj => {
             let flag = id_likes.find((num) => {
                 return (userObj.id === num);
@@ -124,17 +164,55 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // PATCH request to server, send new array of users who like particular book
         fetch(`http://localhost:3000/books/${book.id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+        },
+        body: JSON.stringify({"users": book.users})
+        })
+        .then(res => res.json())
+        .then(book => {
+            updateBookInfo(book)
+        })
+        .catch(e => console.error(e))
+    }
+
+
+// Handle Delete
+
+    function handleDelete(book, username) {
+        
+        let index = null;
+
+        //find index of user to remove from array of users
+        for(const element of book.users) {
+            if (element.username === username) {
+                index = book.users.indexOf(element)
+            }
+        }
+
+        book.users.splice(index, 1);
+
+        fetch(`http://localhost:3000/books/${book.id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: 'application/json'
+                'Accepts': 'application/json'
             },
             body: JSON.stringify({"users": book.users})
         })
         .then(res => res.json())
-        .then(book => updateBookInfo(book))
-        .catch(e => console.error(e))
+        .then(book => {
+            const deleteBtn = document.getElementById(`delete-${book.id}-${username}`);
+            const likeBtn = document.getElementById(`like-${book.id}`);
+
+            deleteBtn.parentNode.remove();
+            likeBtn.disabled = false;
+        })
     }
+
+
 
 })
 

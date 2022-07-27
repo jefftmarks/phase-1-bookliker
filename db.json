@@ -15,7 +15,40 @@
         {
           "id": 8,
           "username": "maverick"
-        }
+        },
+        {
+          "id": 10,
+          "username": "macejkovic"
+        },
+        {
+          "id": 9,
+          "username": "alex"
+        },
+        {
+          "id": 7,
+          "username": "summerqueen98"
+        },
+        {
+          "id": 6,
+          "username": "steuber"
+        },
+        {
+          "id": 5,
+          "username": "feels-like-summer"
+        },
+        {
+          "id": 4,
+          "username": "ann"
+        },
+        {
+          "id": 3,
+          "username": "marvin"
+        },
+        {
+          "id": 1,
+          "username": "pouros"
+        },
+        {}
       ]
     },
     {
@@ -128,12 +161,44 @@
       "img_url": "http://books.google.com/books/content?id=FLFoDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
       "users": [
         {
+          "id": 5,
+          "username": "feels-like-summer"
+        },
+        {
+          "id": 10,
+          "username": "macejkovic"
+        },
+        {
+          "id": 8,
+          "username": "maverick"
+        },
+        {
+          "id": 7,
+          "username": "summerqueen98"
+        },
+        {
+          "id": 6,
+          "username": "steuber"
+        },
+        {
+          "id": 9,
+          "username": "alex"
+        },
+        {
+          "id": 4,
+          "username": "ann"
+        },
+        {
           "id": 3,
           "username": "marvin"
         },
         {
-          "id": 5,
-          "username": "feels-like-summer"
+          "id": 2,
+          "username": "auer"
+        },
+        {
+          "id": 1,
+          "username": "pouros"
         }
       ]
     },
@@ -168,6 +233,26 @@
       "img_url": "http://books.google.com/books/content?id=8thMLkahggcC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
       "users": [
         {
+          "id": 10,
+          "username": "macejkovic"
+        },
+        {
+          "id": 9,
+          "username": "alex"
+        },
+        {
+          "id": 7,
+          "username": "summerqueen98"
+        },
+        {
+          "id": 5,
+          "username": "feels-like-summer"
+        },
+        {
+          "id": 4,
+          "username": "ann"
+        },
+        {
           "id": 8,
           "username": "maverick"
         },
@@ -176,8 +261,12 @@
           "username": "steuber"
         },
         {
-          "id": 5,
-          "username": "feels-like-summer"
+          "id": 3,
+          "username": "marvin"
+        },
+        {
+          "id": 2,
+          "username": "auer"
         }
       ]
     },
@@ -196,6 +285,38 @@
         {
           "id": 10,
           "username": "macejkovic"
+        },
+        {
+          "id": 9,
+          "username": "alex"
+        },
+        {
+          "id": 7,
+          "username": "summerqueen98"
+        },
+        {
+          "id": 6,
+          "username": "steuber"
+        },
+        {
+          "id": 5,
+          "username": "feels-like-summer"
+        },
+        {
+          "id": 4,
+          "username": "ann"
+        },
+        {
+          "id": 3,
+          "username": "marvin"
+        },
+        {
+          "id": 2,
+          "username": "auer"
+        },
+        {
+          "id": 1,
+          "username": "pouros"
         }
       ]
     },
@@ -208,12 +329,24 @@
       "img_url": "http://books.google.com/books/content?id=nEcsDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
       "users": [
         {
-          "id": 8,
-          "username": "maverick"
+          "id": 7,
+          "username": "summerqueen98"
         },
         {
-          "id": 10,
-          "username": "macejkovic"
+          "id": 5,
+          "username": "feels-like-summer"
+        },
+        {
+          "id": 3,
+          "username": "marvin"
+        },
+        {
+          "id": 2,
+          "username": "auer"
+        },
+        {
+          "id": 1,
+          "username": "pouros"
         }
       ]
     }
